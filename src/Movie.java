@@ -1,13 +1,12 @@
 public class Movie {
-    // title,cast,director,overview,runtime,userRating
     private String title;
-    private String[] cast;
+    private String cast;
     private String director;
     private String overview;
     private int runtime;
     private double userRating;
 
-    public Movie(String title, String[] cast, String director, String overview, int runtime, double userRating) {
+    public Movie(String title, String cast, String director, String overview, int runtime, double userRating) {
         this.title = title;
         this.cast = cast;
         this.director = director;
@@ -20,12 +19,16 @@ public class Movie {
         return title;
     }
 
-    public String[] getCast() {
+    public String getCast() {
         return cast;
     }
 
+    public String getDirector() {
+        return director;
+    }
+
     public String getOverview() {
-        return getOverview();
+        return overview;
     }
 
     public int getRuntime() {
