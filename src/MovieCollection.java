@@ -12,9 +12,8 @@ public class MovieCollection {
     }
 
     private void readData() {
-
         try {
-            File myFile = new File("src\\movies_data.csv");
+            File myFile = new File("src\\movies.csv");
             Scanner fileScanner = new Scanner(myFile);
             fileScanner.nextLine();
             while (fileScanner.hasNext()) {
@@ -51,7 +50,7 @@ public class MovieCollection {
     }
 
 
-    private ArrayList<Movie> searchTitles(String searchTerm) {
+    private void searchTitles(String searchTerm) {
         searchTerm = searchTerm.toLowerCase();
         ArrayList<Movie> matches = new ArrayList<>();
         boolean hasMatches = false;
@@ -65,11 +64,37 @@ public class MovieCollection {
             System.out.println("No movies found");
         }
         sortMovieList(matches);
-        return matches;
+        for (int i = 0; i < matches.size(); i++) {
+            System.out.println((i + 1) + ". " + matches.get(i).getTitle());
+        }
+        System.out.println("Which movie would you like to learn about (num): ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        if (choice <= matches.size() - 1) {
+            System.out.println("Title: " + matches.get(choice - 1).getTitle());
+            System.out.println("Runtime: " + matches.get(choice - 1).getRuntime() + " minutes");
+            System.out.println("Directed by: " + matches.get(choice - 1).getDirector());
+            System.out.println("Cast: " + matches.get(choice - 1).getCast());
+            System.out.println("Overview " + matches.get(choice - 1).getOverview());
+            System.out.println("User Rating: " + matches.get(choice - 1).getUserRating());
+        }
     }
 
-    private void searchCast(ArrayList<Movie> validMovies, String searchTerm) {
+    private ArrayList<String> searchCast(String searchTerm) {
+        ArrayList<String> cast = new ArrayList<>();
+        for (Movie movie : movies) {
+            String[] parsedData = movie.getCast().split("\\|");
+            for (int i = 0; i < parsedData.length; i++) {
+                if (parsedData[i].toLowerCase().contains(searchTerm.toLowerCase())) {
+                    cast.add(parsedData[i]);
+                }
+            }
+        }
+        if (cast.isEmpty()) {
+            System.out.println("Not found");
+        }
 
+        return cast;
     }
 
 
@@ -116,9 +141,11 @@ public class MovieCollection {
             menuOption = scanner.nextLine();
 
             if (menuOption.equals("t")) {
-                searchTitles();
+                System.out.println("What movie do you want to search: ");
+                searchTitles(scanner.nextLine().toLowerCase());
             } else if (menuOption.equals("c")) {
-                searchCast();
+                System.out.println("Who do you want to search up");
+                searchCast(scanner.nextLine().toLowerCase());
             } else if (menuOption.equals("q")) {
                 System.out.println("Goodbye!");
             } else {
