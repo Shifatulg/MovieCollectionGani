@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class MovieCollection {
     Scanner scanner = new Scanner(System.in);
     ArrayList<Movie> movies = new ArrayList<>();
+
     public MovieCollection() {
         readData();
         menu();
@@ -77,10 +78,12 @@ public class MovieCollection {
             System.out.println("Cast: " + matches.get(choice - 1).getCast());
             System.out.println("Overview " + matches.get(choice - 1).getOverview());
             System.out.println("User Rating: " + matches.get(choice - 1).getUserRating());
+        } else {
+            System.out.println("INVALID");
         }
     }
 
-    private ArrayList<String> searchCast(String searchTerm) {
+    private void searchCast(String searchTerm) {
         ArrayList<String> cast = new ArrayList<>();
         for (Movie movie : movies) {
             String[] parsedData = movie.getCast().split("\\|");
@@ -93,14 +96,47 @@ public class MovieCollection {
         if (cast.isEmpty()) {
             System.out.println("Not found");
         }
+        selectionSortWordList(cast);
+        cast = removeDuplicates(cast);
+        for (int i = 0; i < cast.size(); i++) {
+            System.out.println((i + 1) + ". " + cast.get(i));
+        }
 
-        return cast;
+        ArrayList<Movie> hasActor = new ArrayList<>();
+        for (Movie movie : movies) {
+            String[] parsedData = movie.getCast().split("\\|");
+            for (int i = 0; i < parsedData.length; i++) {
+                if (parsedData[i].toLowerCase().contains(searchTerm.toLowerCase())) {
+                    hasActor.add(movie);
+                }
+            }
+            sortMovieList(hasActor);
+            for (int i = 0; i < hasActor.size(); i++) {
+                System.out.println((i + 1) + ". " + hasActor.get(i).getTitle());
+            }
+
+            System.out.println("Which movie would you like to learn about (num): ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            if (choice <= hasActor.size() - 1) {
+                System.out.println("Title: " + hasActor.get(choice - 1).getTitle());
+                System.out.println("Runtime: " + hasActor.get(choice - 1).getRuntime() + " minutes");
+                System.out.println("Directed by: " + hasActor.get(choice - 1).getDirector());
+                System.out.println("Cast: " + hasActor.get(choice - 1).getCast());
+                System.out.println("Overview " + hasActor.get(choice - 1).getOverview());
+                System.out.println("User Rating: " + hasActor.get(choice - 1).getUserRating());
+            } else {
+                System.out.println("INVALID");
+            }
+        }
+
+
+
+
     }
 
 
-
-    private static ArrayList<String> removeDuplicates(ArrayList<String> list)
-    {
+    private ArrayList<String> removeDuplicates(ArrayList<String> list) {
         ArrayList<String> newList = new ArrayList<String>();
         for (String castMember : list) {
             if (!newList.contains(castMember)) {
@@ -124,8 +160,6 @@ public class MovieCollection {
             words.set(min_idx, temp);
         }
     }
-
-
 
 
     private void menu() {
