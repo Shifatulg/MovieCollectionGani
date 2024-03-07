@@ -114,7 +114,6 @@ public class MovieCollection {
             for (int i = 0; i < hasActor.size(); i++) {
                 System.out.println((i + 1) + ". " + hasActor.get(i).getTitle());
             }
-
             System.out.println("Which movie would you like to learn about (num): ");
             int choice = scanner.nextInt();
             scanner.nextLine();
