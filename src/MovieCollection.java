@@ -101,37 +101,39 @@ public class MovieCollection {
         for (int i = 0; i < cast.size(); i++) {
             System.out.println((i + 1) + ". " + cast.get(i));
         }
-
+        System.out.println("Which person would you like to learn about (num): ");
+        int person = scanner.nextInt();
+        scanner.nextLine();
         ArrayList<Movie> hasActor = new ArrayList<>();
         for (Movie movie : movies) {
             String[] parsedData = movie.getCast().split("\\|");
             for (int i = 0; i < parsedData.length; i++) {
-                if (parsedData[i].toLowerCase().contains(searchTerm.toLowerCase())) {
+                if (parsedData[i].toLowerCase().contains(cast.get(person - 1).toLowerCase())) {
                     hasActor.add(movie);
                 }
             }
-            sortMovieList(hasActor);
-            for (int i = 0; i < hasActor.size(); i++) {
-                System.out.println((i + 1) + ". " + hasActor.get(i).getTitle());
-            }
-            System.out.println("Which movie would you like to learn about (num): ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-            if (choice <= hasActor.size() - 1) {
-                System.out.println("Title: " + hasActor.get(choice - 1).getTitle());
-                System.out.println("Runtime: " + hasActor.get(choice - 1).getRuntime() + " minutes");
-                System.out.println("Directed by: " + hasActor.get(choice - 1).getDirector());
-                System.out.println("Cast: " + hasActor.get(choice - 1).getCast());
-                System.out.println("Overview " + hasActor.get(choice - 1).getOverview());
-                System.out.println("User Rating: " + hasActor.get(choice - 1).getUserRating());
-            } else {
-                System.out.println("INVALID");
-            }
         }
-
-
-
-
+        sortMovieList(hasActor);
+        System.out.println("How many movies would you like to display: ");
+        int movDisplay = scanner.nextInt();
+        if (movDisplay >= hasActor.size()) {
+            movDisplay = hasActor.size();
+        }
+        for (int i = 0; i < movDisplay; i++) {
+            System.out.println((i + 1) + ". " + hasActor.get(i).getTitle());
+        }
+        System.out.println("What movie would you like to learn about: ");
+        int choice = scanner.nextInt();
+        if (choice <= hasActor.size() - 1) {
+            System.out.println("Title: " + hasActor.get(choice - 1).getTitle());
+            System.out.println("Runtime: " + hasActor.get(choice - 1).getRuntime() + " minutes");
+            System.out.println("Directed by: " + hasActor.get(choice - 1).getDirector());
+            System.out.println("Cast: " + hasActor.get(choice - 1).getCast());
+            System.out.println("Overview " + hasActor.get(choice - 1).getOverview());
+            System.out.println("User Rating: " + hasActor.get(choice - 1).getUserRating());
+        } else {
+            System.out.println("INVALID");
+        }
     }
 
 
